@@ -1,18 +1,90 @@
 {
   "customers": [
     {
-      "name": "name",
-      "updated_by": "",
-      "last_updated": "",
-      "description": "",
-      "id": 1
-    },
-    {
+      "0": {
+        "name": "S"
+      },
+      "1": {
+        "name": "Sh"
+      },
+      "2": {
+        "name": "Sha"
+      },
+      "3": {
+        "name": "Sham"
+      },
+      "4": {
+        "name": "Shamu"
+      },
+      "5": {
+        "name": "Sham"
+      },
+      "6": {
+        "name": "Shami"
+      },
+      "7": {
+        "updated_by": "M"
+      },
+      "8": {
+        "updated_by": "Me"
+      },
+      "9": {
+        "last_updated": "1"
+      },
+      "10": {
+        "last_updated": "11"
+      },
+      "11": {
+        "last_updated": "112"
+      },
+      "12": {
+        "last_updated": "1123"
+      },
+      "13": {
+        "last_updated": "11233"
+      },
+      "14": {
+        "last_updated": "112331"
+      },
+      "15": {
+        "last_updated": "1123312"
+      },
+      "16": {
+        "last_updated": "11233123"
+      },
+      "17": {
+        "last_updated": "112331231"
+      },
+      "18": {
+        "last_updated": "1123312312"
+      },
+      "19": {
+        "last_updated": "11233123123"
+      },
+      "20": {
+        "description": "F"
+      },
+      "21": {
+        "description": "Fa"
+      },
+      "22": {
+        "description": "Fas"
+      },
+      "23": {
+        "description": "Fast"
+      },
       "name": "Yzui",
       "updated_by": "KJADSH",
       "last_updated": "2020-06-03",
       "description": "Off break",
       "id": 2
+    },
+    {
+      "name": "KASD",
+      "updated_by": "gjkbfask",
+      "last_updated": "2020-06-20",
+      "description": "adasd",
+      "id": 3
     }
   ]
 }

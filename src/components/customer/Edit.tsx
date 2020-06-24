@@ -13,46 +13,58 @@ export interface IFormState {
     loading: boolean;
 }
 
-class EditCustomer extends React.Component<RouteComponentProps<any>, IFormState> {
-    constructor(props: RouteComponentProps) {
-        super(props);
-        this.state = {
-            id: this.props.match.params.id,
-            customer: {},
-            values: [],
-            loading: false,
-            submitSuccess: false,
-        }
-    }
-    public componentDidMount(): void {
-        axios.get(`http://localhost:5000/customers/${this.state.id}`).then(data => {
-            this.setState({ customer: data.data });
-        })
-    }
+function EditCustomer(props:RouteComponentProps<any>) {
+        // this.state = {
+        //     id: this.props.match.params.id,
+        //     customer: {},
+        //     values: [],
+        //     loading: false,
+        //     submitSuccess: false,
+        // }
+        const[id,setId] = React.useState<string>(props.match.params.id)
+        const[customer,setCustomer] = React.useState<any>({})
+        const [values,setValues] = React.useState<any[]>([])
+        const [loading,setLoading] = React.useState<boolean>(false)
+        const [submitSuccess,setSubmitSuccess] = React.useState<boolean>(false)
+    
+    // public componentDidMount(): void {
+    //     axios.get(`http://localhost:5000/customers/${this.state.id}`).then(data => {
+    //         this.setState({ customer: data.data });
+    //     })
+    // }
 
-    private processFormSubmission = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    React.useEffect(() => {
+        axios.get(`http://localhost:5000/customers/${id}`).then(data => {
+            setCustomer(data.data);
+        })
+
+       }, [])
+
+    const processFormSubmission = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
-        this.setState({ loading: true });
-        axios.patch(`http://localhost:5000/customers/${this.state.id}`, this.state.values).then(data => {
-            this.setState({ submitSuccess: true, loading: false })
+        setLoading(true);
+        axios.patch(`http://localhost:5000/customers/${id}`, values).then(data => {
+            setSubmitSuccess(true);
+            setLoading(false);
             setTimeout(() => {
-                this.props.history.push('/');
+                props.history.push('/');
             }, 1500)
         })
     }
 
-    private setValues = (values: IValues) => {
-        this.setState({ values: { ...this.state.values, ...values } });
+    const setValuess = (val: IValues) => {
+        // this.setState({ values: { ...this.state.values, ...values } });
+
+        setValues({...values, ...val})
     }
-    private handleInputChanges = (e: React.FormEvent<HTMLInputElement>) => {
+     const handleInputChanges = (e: React.FormEvent<HTMLInputElement>) => {
         e.preventDefault();
-        this.setValues({ [e.currentTarget.id]: e.currentTarget.value })
+        setValuess({ [e.currentTarget.id]: e.currentTarget.value })
     }
-    public render() {
-        const { submitSuccess, loading } = this.state;
+       
         return (
             <div className="App">
-                {this.state.customer &&
+                {customer &&
                     <div>
                         < h1 > Customer List Management App</h1>
                         <p> Built with React.js and TypeScript </p>
@@ -64,22 +76,22 @@ class EditCustomer extends React.Component<RouteComponentProps<any>, IFormState>
                                     <div className="alert alert-info" role="alert">
                                         Customer's details has been edited successfully </div>
                                 )}
-                                <form id={"create-post-form"} onSubmit={this.processFormSubmission} noValidate={true}>
+                                <form id={"create-post-form"} onSubmit={processFormSubmission} noValidate={true}>
                                     <div className="form-group col-md-12">
                                         <label htmlFor="name"> Name </label>
-                                        <input type="text" id="name" defaultValue={this.state.customer.name} onChange={(e) => this.handleInputChanges(e)} name="name" className="form-control" placeholder="Enter name" />
+                                        <input type="text" id="name" defaultValue={customer.name} onChange={(e) => handleInputChanges(e)} name="name" className="form-control" placeholder="Enter name" />
                                     </div>
                                     <div className="form-group col-md-12">
                                         <label htmlFor="updated_by"> Updated By </label>
-                                        <input type="text" id="updated_by" defaultValue={this.state.customer.updated_by} onChange={(e) => this.handleInputChanges(e)} name="updated_by" className="form-control" placeholder="Updated By" />
+                                        <input type="text" id="updated_by" defaultValue={customer.updated_by} onChange={(e) => handleInputChanges(e)} name="updated_by" className="form-control" placeholder="Updated By" />
                                     </div>
                                     <div className="form-group col-md-12">
                                         <label htmlFor="last_updated"> Last Updated </label>
-                                        <input type="text" id="last_updated" defaultValue={this.state.customer.last_updated} onChange={(e) => this.handleInputChanges(e)} name="last_updated" className="form-control" placeholder="Enter Date" />
+                                        <input type="text" id="last_updated" defaultValue={customer.last_updated} onChange={(e) => handleInputChanges(e)} name="last_updated" className="form-control" placeholder="Enter Date" />
                                     </div>
                                     <div className="form-group col-md-12">
                                         <label htmlFor="description"> Description </label>
-                                        <input type="text" id="description" defaultValue={this.state.customer.description} onChange={(e) => this.handleInputChanges(e)} name="description" className="form-control" placeholder="Enter Description" />
+                                        <input type="text" id="description" defaultValue={customer.description} onChange={(e) => handleInputChanges(e)} name="description" className="form-control" placeholder="Enter Description" />
                                     </div>
                                     <div className="form-group col-md-4 pull-right">
                                         <button className="btn btn-success" type="submit">
@@ -95,6 +107,6 @@ class EditCustomer extends React.Component<RouteComponentProps<any>, IFormState>
                 }
             </div>
         )
-    }
+    
 }
 export default withRouter(EditCustomer)
