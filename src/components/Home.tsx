@@ -2,15 +2,7 @@ import * as React from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import axios from 'axios';
 
-interface IState {
-    customers: any[];
-}
-
 export default function Home(props:RouteComponentProps){
-    // constructor(props: RouteComponentProps) {
-    //     super(props);
-    //     this.state = { customers: [] }
-    // }
 
     const [customers,setCustomers] = React.useState<any[]>([])
 

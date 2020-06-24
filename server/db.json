@@ -1,3 +1,18 @@
 {
-  "customers": []
+  "customers": [
+    {
+      "name": "name",
+      "updated_by": "",
+      "last_updated": "",
+      "description": "",
+      "id": 1
+    },
+    {
+      "name": "Yzui",
+      "updated_by": "KJADSH",
+      "last_updated": "2020-06-03",
+      "description": "Off break",
+      "id": 2
+    }
+  ]
 }
