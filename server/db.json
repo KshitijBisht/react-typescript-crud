@@ -1,11 +1,3 @@
 {
-  "customers": [
-    {
-      "name": "Shane Watson 1",
-      "updated_by": "Kshitij Bisht",
-      "last_updated": "24.123.123123 1123123123123",
-      "description": "TEST DEscription @ Joint",
-      "id": 2
-    }
-  ]
+  "customers": []
 }

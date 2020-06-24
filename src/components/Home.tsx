@@ -6,25 +6,29 @@ interface IState {
     customers: any[];
 }
 
-export default class Home extends React.Component<RouteComponentProps, IState> {
-    constructor(props: RouteComponentProps) {
-        super(props);
-        this.state = { customers: [] }
+export default function Home(props:RouteComponentProps){
+    // constructor(props: RouteComponentProps) {
+    //     super(props);
+    //     this.state = { customers: [] }
+    // }
+
+    const [customers,setCustomers] = React.useState<any[]>([])
+
+    const fetchCustomers = function(){
+        axios.get(`http://localhost:5000/customers`).then(data => setCustomers(data.data))
     }
-    public componentDidMount(): void {
-        axios.get(`http://localhost:5000/customers`).then(data => {
-            this.setState({ customers: data.data })
-        })
-    }
-    public deleteCustomer(id: number) {
+
+    React.useEffect(() => {
+        fetchCustomers();
+       }, [])
+
+       const deleteCustomer = function(id: number) {
         axios.delete(`http://localhost:5000/customers/${id}`).then(data => {
-            const index = this.state.customers.findIndex(customer => customer.id === id);
-            this.state.customers.splice(index, 1);
-            this.props.history.push('/');
+            const index = customers.findIndex(customer => customer.id === id);
+            customers.splice(index, 1);
+            props.history.push('/');
         })
     }
-    public render() {
-        const customers = this.state.customers;
         return (
             <div>
                 {customers.length === 0 && (
@@ -56,7 +60,7 @@ export default class Home extends React.Component<RouteComponentProps, IState> {
                                             <div className="d-flex justify-content-between align-items-center">
                                                 <div className="btn-group" style={{ marginBottom: "20px" }}>
                                                     <Link to={`edit/${customer.id}`} className="btn btn-sm btn-outline-secondary">Edit Customer </Link>
-                                                    <button className="btn btn-sm btn-outline-secondary" onClick={() => this.deleteCustomer(customer.id)}>Delete Customer</button>
+                                                    <button className="btn btn-sm btn-outline-secondary" onClick={() => deleteCustomer(customer.id)}>Delete Customer</button>
                                                 </div>
                                             </div>
                                         </td>
@@ -68,5 +72,5 @@ export default class Home extends React.Component<RouteComponentProps, IState> {
                 </div>
             </div>
         )
-    }
+    
 }
