@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import axios from 'axios';
 
+
 export default function Home(props:RouteComponentProps){
 
     const [customers,setCustomers] = React.useState<any[]>([])
@@ -15,11 +16,15 @@ export default function Home(props:RouteComponentProps){
        }, [])
 
        const deleteCustomer = function(id: number) {
-        axios.delete(`http://localhost:5000/customers/${id}`).then(data => {
+            const answer = window.confirm('Do you really want to delete this entry ?')
+           if(answer){
+            axios.delete(`http://localhost:5000/customers/${id}`).then(data => {
             const index = customers.findIndex(customer => customer.id === id);
             customers.splice(index, 1);
             props.history.push('/');
         })
+           }
+           
     }
         return (
             <div>
@@ -30,7 +35,7 @@ export default function Home(props:RouteComponentProps){
                 )}
                 <div className="container">
                     <div className="row">
-                        <table className="table table-bordered">
+                        <table className="table table-striped">
                             <thead className="thead-light">
                                 <tr>
                                     <th scope="col">Name</th>
@@ -51,8 +56,8 @@ export default function Home(props:RouteComponentProps){
                                         <td>
                                             <div className="d-flex justify-content-between align-items-center">
                                                 <div className="btn-group" style={{ marginBottom: "20px" }}>
-                                                <Link to={`edit/${customer.id}`} className="btn btn-sm btn-outline-secondary">Edit Customer </Link>
-                                                    <button className="btn btn-sm btn-outline-secondary" onClick={() => deleteCustomer(customer.id)}>Delete Customer</button>
+                                                <i className ="fa fa-pencil" style={{marginRight: "10px"}}><Link to={`edit/${customer.id}`}></Link></i>
+                                                    <i className="fa fa-trash" onClick={() => deleteCustomer(customer.id)} ></i>
                                                 </div>
                                             </div>
                                         </td>
