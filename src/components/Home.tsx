@@ -44,14 +44,14 @@ export default function Home(props:RouteComponentProps){
                             <tbody>
                                 {customers && customers.map(customer =>
                                     <tr key={customer.id}>
-                                        <td>{customer.name}</td>
+                                        <td><Link to={`edit/${customer.id}`}>{customer.name}</Link></td>
                                         <td>{customer.description}</td>
                                         <td>{customer.updated_by}</td>
                                         <td>{customer.last_updated}</td>
                                         <td>
                                             <div className="d-flex justify-content-between align-items-center">
                                                 <div className="btn-group" style={{ marginBottom: "20px" }}>
-                                                    <Link to={`edit/${customer.id}`} className="btn btn-sm btn-outline-secondary">Edit Customer </Link>
+                                                <Link to={`edit/${customer.id}`} className="btn btn-sm btn-outline-secondary">Edit Customer </Link>
                                                     <button className="btn btn-sm btn-outline-secondary" onClick={() => deleteCustomer(customer.id)}>Delete Customer</button>
                                                 </div>
                                             </div>
