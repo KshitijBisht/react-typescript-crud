@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import axios from 'axios';
-
+import {Grid} from 'ag-grid-community';
 
 export default function Home(props:RouteComponentProps){
 
     const [customers,setCustomers] = React.useState<any[]>([])
+
 
     const fetchCustomers = function(){
         axios.get(`http://localhost:5000/customers`).then(data => setCustomers(data.data))
@@ -56,7 +57,7 @@ export default function Home(props:RouteComponentProps){
                                         <td>
                                             <div className="d-flex justify-content-between align-items-center">
                                                 <div className="btn-group" style={{ marginBottom: "20px" }}>
-                                                <i className ="fa fa-pencil" style={{marginRight: "10px"}}><Link to={`edit/${customer.id}`}></Link></i>
+                                                <Link to={`edit/${customer.id}`}><i className ="fa fa-pencil" style={{marginRight: "10px"}}></i></Link>
                                                     <i className="fa fa-trash" onClick={() => deleteCustomer(customer.id)} ></i>
                                                 </div>
                                             </div>

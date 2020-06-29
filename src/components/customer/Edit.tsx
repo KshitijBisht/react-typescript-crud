@@ -87,7 +87,7 @@ function EditCustomer(props:RouteComponentProps<any>) {
                                     </div>
                                     <div className="form-group col-md-12">
                                         <label htmlFor="last_updated"> Last Updated </label>
-                                        <input type="text" id="last_updated" defaultValue={customer.last_updated} onChange={(e) => handleInputChanges(e)} name="last_updated" className="form-control" placeholder="Enter Date" />
+                                        <input type="date" id="last_updated" defaultValue={customer.last_updated} onChange={(e) => handleInputChanges(e)} name="last_updated" className="form-control" placeholder="Enter Date" />
                                     </div>
                                     <div className="form-group col-md-12">
                                         <label htmlFor="description"> Description </label>
