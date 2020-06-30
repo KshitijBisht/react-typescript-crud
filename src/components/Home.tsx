@@ -58,7 +58,7 @@ export default function Home(props:RouteComponentProps){
                                             <div className="d-flex justify-content-between align-items-center">
                                                 <div className="btn-group" style={{ marginBottom: "20px" }}>
                                                 <Link to={`edit/${customer.id}`}><i className ="fa fa-pencil" style={{marginRight: "10px"}}></i></Link>
-                                                    <i className="fa fa-trash" onClick={() => deleteCustomer(customer.id)} ></i>
+                                                    <i className="fa fa-trash" id="delete-icon" onClick={() => deleteCustomer(customer.id)} ></i>
                                                 </div>
                                             </div>
                                         </td>
