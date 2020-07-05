@@ -4,10 +4,13 @@ import { Switch, Route, withRouter, RouteComponentProps, Link } from 'react-rout
 import Home from './components/Home';
 import Create from './components/customer/Create';
 import EditUser from './components/customer/Edit';
+import {Provider} from 'react-redux';
+import store from './store'
 
 function App(RouteComponentProps: any) {
   
     return (
+      <Provider store = {store}>
       <div>
         <nav>
           <ul>
@@ -25,6 +28,7 @@ function App(RouteComponentProps: any) {
           <Route path={'/edit/:id'} exact component={EditUser} />
         </Switch>
       </div>
+      </Provider>
     );
   
 }

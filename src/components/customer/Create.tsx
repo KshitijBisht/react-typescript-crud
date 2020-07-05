@@ -1,21 +1,22 @@
 import * as React from 'react';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
+import {RootState} from '../../store/modules/combineReducers';
+import {Customer} from '../../store/modules/customer/types'
+import { createCustomer } from '../../store/modules/customer/actions';
 
-export interface IValues {
-    name: string,
-    updated_by: string,
-    description: string,
-    last_updated: string
-}
-export interface IFormState {
-    [key: string]: any;
-    values: IValues[];
-    submitSuccess: boolean;
-    loading: boolean;
-}
+
 
 function Create(props:RouteComponentProps){
+
+    const data = useSelector((state: RootState) => state.customer.data);
+    const dispatch = useDispatch();
+
+    function lastId(): number {
+        return data[data.length - 1] ? data[data.length - 1].id + 1 : 0;
+      }
+
 
     const [name,setName] = React.useState<string>('')
     const [updated_by,setUpdatedBy] = React.useState<string>('')
@@ -28,35 +29,36 @@ function Create(props:RouteComponentProps){
     
      const processFormSubmission = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
-        setloading(true);
-        const formData = {
-            name: name,
-            updated_by: updated_by,
-            last_updated:last_updated,   
-            description: description,
-        }
-        setsubmitSuccess(true);
-        const latestValues = [...values,formData]
-        setValues(latestValues);
-        setloading(false)
-        axios.post(`http://localhost:5000/customers`, formData).then(data => [
-            setTimeout(() => {
-                props.history.push('/');
-            }, 1500)
-        ]);
+        console.log(`Inside here`)
+        dispatch(createCustomer({
+            id:lastId(),
+            name,
+            updated_by,
+            description,
+            last_updated
+        }));
+        setTimeout(() => {
+                     props.history.push('/');
+                 }, 1500);
+
+        // setloading(true);
+        // const formData = {
+        //     name: name,
+        //     updated_by: updated_by,
+        //     last_updated:last_updated,   
+        //     description: description,
+        // }
+        // setsubmitSuccess(true);
+        // const latestValues = [...values,formData]
+        // setValues(latestValues);
+        // setloading(false)
+        // axios.post(`http://localhost:5000/customers`, formData).then(data => [
+        //     setTimeout(() => {
+        //         props.history.push('/');
+        //     }, 1500)
+        // ]);
     }
 
-//     const handleInputChanges = (e: React.FormEvent<HTMLInputElement>) => {
-//         e.preventDefault();
-//         console.log(`${JSON.parse(e.currentTarget.name)}`)
-//         console.log(`${JSON.parse(e.currentTarget.value)}`)
-
-        
-//     //     this.setState({
-//     //         [e.currentTarget.name]: e.currentTarget.value,
-//     // })
-// }
-//     // const { submitSuccess, loading } = state;
     return (
         <div>
             <div className={"col-md-12 form-wrapper"}>
@@ -96,6 +98,7 @@ function Create(props:RouteComponentProps){
                             <span className="fa fa-circle-o-notch fa-spin" />
                         }
                     </div>
+
                 </form>
             </div>
         </div>

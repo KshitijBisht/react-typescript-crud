@@ -1,6 +1,10 @@
 import * as React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
+import {updateCustomer} from '../../store/modules/customer/actions';
+import {Customer} from '../../store/modules/customer/types'
 import axios from 'axios';
+import {RootState} from '../../store/modules/combineReducers'
 
 export interface IValues {
     [key: string]: any;
@@ -14,15 +18,11 @@ export interface IFormState {
 }
 
 function EditCustomer(props:RouteComponentProps<any>) {
-        // this.state = {
-        //     id: this.props.match.params.id,
-        //     customer: {},
-        //     values: [],
-        //     loading: false,
-        //     submitSuccess: false,
-        // }
+        const dispatch = useDispatch();
+        const data = useSelector((state: RootState) => state.customer.data);
+        const customer = useSelector((state: RootState) => state.customer.data[props.match.params.id]);
         const[id,setId] = React.useState<string>(props.match.params.id)
-        const[customer,setCustomer] = React.useState<any>({})
+        // const[customer,setCustomer] = React.useState<any>(data)
         const [values,setValues] = React.useState<any[]>([])
         const [loading,setLoading] = React.useState<boolean>(false)
         const [submitSuccess,setSubmitSuccess] = React.useState<boolean>(false)
@@ -33,23 +33,30 @@ function EditCustomer(props:RouteComponentProps<any>) {
     //     })
     // }
 
-    React.useEffect(() => {
-        axios.get(`http://localhost:5000/customers/${id}`).then(data => {
-            setCustomer(data.data);
-        })
+    // React.useEffect(() => {
+    //     const customer = data.filter(item=>{
+    //         return item.id === props.match.params.id
+    //     })
+    //     setCustomer(customer);
 
-       }, [])
+    //    }, [])
 
-    const processFormSubmission = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    const processFormSubmission =  (customer:Customer,e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
         setLoading(true);
-        axios.patch(`http://localhost:5000/customers/${id}`, values).then(data => {
-            setSubmitSuccess(true);
-            setLoading(false);
-            setTimeout(() => {
-                props.history.push('/');
-            }, 1500)
-        })
+        dispatch(updateCustomer({...customer,...values}));
+        setLoading(false);
+        setTimeout(() => {
+            props.history.push('/');
+        }, 1500);
+
+        // axios.patch(`http://localhost:5000/customers/${id}`, values).then(data => {
+        //     setSubmitSuccess(true);
+        //     setLoading(false);
+        //     setTimeout(() => {
+        //         props.history.push('/');
+        //     }, 1500)
+        // })
     }
 
     const setValuess = (val: IValues) => {
@@ -67,7 +74,6 @@ function EditCustomer(props:RouteComponentProps<any>) {
                 {customer &&
                     <div>
                         < h1 > Customer List Management App</h1>
-                        <p> Built with React.js and TypeScript </p>
 
                         <div>
                             <div className={"col-md-12 form-wrapper"}>
@@ -76,7 +82,7 @@ function EditCustomer(props:RouteComponentProps<any>) {
                                     <div className="alert alert-info" role="alert">
                                         Customer's details has been edited successfully </div>
                                 )}
-                                <form id={"create-post-form"} onSubmit={processFormSubmission} noValidate={true}>
+                                <form id={"create-post-form"} onSubmit={(e): void=>processFormSubmission(customer,e)} noValidate={true}>
                                     <div className="form-group col-md-12">
                                         <label htmlFor="name"> Name </label>
                                         <input type="text" id="name" defaultValue={customer.name} onChange={(e) => handleInputChanges(e)} name="name" className="form-control" placeholder="Enter name" />

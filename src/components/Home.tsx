@@ -1,29 +1,39 @@
 import * as React from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import {Grid} from 'ag-grid-community';
+import {RootState} from '../store/modules/combineReducers';
+import { Customer } from '../store/modules/customer/types';
+import {deleteCustomer} from '../store/modules/customer/actions'
 
 export default function Home(props:RouteComponentProps){
+    const dispatch = useDispatch();
+    // const [customers,setCustomers] = React.useState<any[]>([])
 
-    const [customers,setCustomers] = React.useState<any[]>([])
 
+    // const fetchCustomers = function(){
+    //     axios.get(`http://localhost:5000/customers`).then(data => setCustomers(data.data))
+    // }
 
-    const fetchCustomers = function(){
-        axios.get(`http://localhost:5000/customers`).then(data => setCustomers(data.data))
-    }
+    // React.useEffect(() => {
+    //     fetchCustomers();
+    //    }, [])
 
-    React.useEffect(() => {
-        fetchCustomers();
-       }, [])
+    const customers = useSelector((state: RootState) => state.customer.data);
 
-       const deleteCustomer = function(id: number) {
+       const handleDelete = function(customer:Customer,
+        e: React.MouseEvent<HTMLSpanElement, MouseEvent>
+        ): void {
+            e.stopPropagation();
             const answer = window.confirm('Do you really want to delete this entry ?')
            if(answer){
-            axios.delete(`http://localhost:5000/customers/${id}`).then(data => {
-            const index = customers.findIndex(customer => customer.id === id);
-            customers.splice(index, 1);
-            props.history.push('/');
-        })
+               dispatch(deleteCustomer(customer))
+        //     axios.delete(`http://localhost:5000/customers/${id}`).then(data => {
+        //     const index = customers.findIndex(customer => customer.id === id);
+        //     customers.splice(index, 1);
+        //     props.history.push('/');
+        // })
+
            }
            
     }
@@ -58,7 +68,7 @@ export default function Home(props:RouteComponentProps){
                                             <div className="d-flex justify-content-between align-items-center">
                                                 <div className="btn-group" style={{ marginBottom: "20px" }}>
                                                 <Link to={`edit/${customer.id}`}><i className ="fa fa-pencil" style={{marginRight: "10px"}}></i></Link>
-                                                    <i className="fa fa-trash" id="delete-icon" onClick={() => deleteCustomer(customer.id)} ></i>
+                                                    <i className="fa fa-trash" id="delete-icon" onClick={(e): void => handleDelete(customer,e)} ></i>
                                                 </div>
                                             </div>
                                         </td>
