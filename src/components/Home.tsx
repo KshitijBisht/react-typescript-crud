@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import {RootState} from '../store/modules/combineReducers';
 import { Customer } from '../store/modules/customer/types';
-import {deleteCustomer} from '../store/modules/customer/actions'
+import {deleteCustomer,saveCustomers,loadCustomers} from '../store/modules/customer/actions'
 
 export default function Home(props:RouteComponentProps){
     const dispatch = useDispatch();
@@ -18,6 +18,14 @@ export default function Home(props:RouteComponentProps){
     // React.useEffect(() => {
     //     fetchCustomers();
     //    }, [])
+
+    const onSave = function(customers:any) :void{
+        dispatch(saveCustomers(customers))
+    }
+
+    // const onLoad = function() :any{
+    //     dispatch(loadCustomers)
+    // }
 
     const customers = useSelector((state: RootState) => state.customer.data);
 
@@ -58,7 +66,7 @@ export default function Home(props:RouteComponentProps){
                                 </tr>
                             </thead>
                             <tbody>
-                                {customers && customers.map(customer =>
+                                {customers && customers.map((customer:any) =>
                                     <tr key={customer.id}>
                                         <td><Link to={`edit/${customer.id}`}>{customer.name}</Link></td>
                                         <td>{customer.description}</td>
@@ -76,6 +84,8 @@ export default function Home(props:RouteComponentProps){
                                 )}
                             </tbody>
                         </table>
+                        <button onClick={(): void => onSave(customers)}>SAVE</button>
+                        {/* <button onClick={ onLoad()}>LOAD</button> */}
                     </div>
                 </div>
             </div>
