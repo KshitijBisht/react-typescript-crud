@@ -9,6 +9,7 @@ export interface Customer {
   export interface CustomerState {
     data: Customer[];
   }
+ 
   
   export const CREATE_CUSTOMER_REQUEST = '@todo/CREATE_CUSTOMER_REQUEST';
   export const UPDATE_CUSTOMER_REQUEST = '@todo/UPDATE_CUSTOMER_REQUEST';

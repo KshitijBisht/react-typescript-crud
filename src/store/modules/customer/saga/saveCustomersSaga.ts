@@ -7,6 +7,6 @@ export function* saveCustomersWatcher(){
     yield takeLatest(SAVE_CUSTOMERS_REQUEST,saveCustomersFlow)
 }
 
-function* saveCustomersFlow(action){
+function* saveCustomersFlow(action:any){
  yield call(postCustomers,action.payload)
 }
