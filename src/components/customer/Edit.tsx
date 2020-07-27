@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import {updateCustomer} from '../../store/modules/customer/actions';
 import {Customer} from '../../store/modules/customer/types'
-import axios from 'axios';
 import {RootState} from '../../store/modules/combineReducers'
 
 export interface IValues {
@@ -19,27 +18,11 @@ export interface IFormState {
 
 function EditCustomer(props:RouteComponentProps<any>) {
         const dispatch = useDispatch();
-        const data = useSelector((state: RootState) => state.customer.data);
         const customer = useSelector((state: RootState) => state.customer.data[props.match.params.id]);
-        const[id,setId] = React.useState<string>(props.match.params.id)
-        // const[customer,setCustomer] = React.useState<any>(data)
         const [values,setValues] = React.useState<any[]>([])
         const [loading,setLoading] = React.useState<boolean>(false)
         const [submitSuccess,setSubmitSuccess] = React.useState<boolean>(false)
     
-    // public componentDidMount(): void {
-    //     axios.get(`http://localhost:5000/customers/${this.state.id}`).then(data => {
-    //         this.setState({ customer: data.data });
-    //     })
-    // }
-
-    // React.useEffect(() => {
-    //     const customer = data.filter(item=>{
-    //         return item.id === props.match.params.id
-    //     })
-    //     setCustomer(customer);
-
-    //    }, [])
 
     const processFormSubmission =  (customer:Customer,e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
@@ -50,18 +33,10 @@ function EditCustomer(props:RouteComponentProps<any>) {
             props.history.push('/');
         }, 1500);
 
-        // axios.patch(`http://localhost:5000/customers/${id}`, values).then(data => {
-        //     setSubmitSuccess(true);
-        //     setLoading(false);
-        //     setTimeout(() => {
-        //         props.history.push('/');
-        //     }, 1500)
-        // })
+
     }
 
     const setValuess = (val: IValues) => {
-        // this.setState({ values: { ...this.state.values, ...values } });
-
         setValues({...values, ...val})
     }
      const handleInputChanges = (e: React.FormEvent<HTMLInputElement>) => {
@@ -100,7 +75,7 @@ function EditCustomer(props:RouteComponentProps<any>) {
                                         <input type="text" id="description" defaultValue={customer.description} onChange={(e) => handleInputChanges(e)} name="description" className="form-control" placeholder="Enter Description" />
                                     </div>
                                     <div className="form-group col-md-4 pull-right">
-                                        <button className="btn btn-success" type="submit">
+                                        <button className="btn btn-success" id="edit-submit" type="submit">
                                             Edit Customer </button>
                                         {loading &&
                                             <span className="fa fa-circle-o-notch fa-spin" />

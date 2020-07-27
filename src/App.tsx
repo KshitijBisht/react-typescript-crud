@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './App.css';
-import { Switch, Route, withRouter, RouteComponentProps, Link } from 'react-router-dom';
+import { Switch, Route, withRouter, RouteComponentProps, Link,BrowserRouter as Router } from 'react-router-dom';
 import Home from './components/Home';
 import Create from './components/customer/Create';
 import EditUser from './components/customer/Edit';
@@ -10,7 +10,9 @@ import store from './store'
 function App(RouteComponentProps: any) {
   
     return (
+      <Router>
       <Provider store = {store}>
+       
       <div>
         <nav>
           <ul>
@@ -28,7 +30,9 @@ function App(RouteComponentProps: any) {
           <Route path={'/edit/:id'} exact component={EditUser} />
         </Switch>
       </div>
+     
       </Provider>
+      </Router>
     );
   
 }

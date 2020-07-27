@@ -20,7 +20,7 @@ const location = createLocation(match.url);
 
 Enzyme.configure({ adapter: new Adapter() });
 
-describe('<Home/>',()=>{
+xdescribe('<Home/>',()=>{
     const wrapper= shallow(<Home history={history} location={location} match={match}/>);
     it('should be defined',()=>{
     expect(wrapper).toBeDefined();

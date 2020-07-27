@@ -1,5 +1,4 @@
 import * as React from 'react';
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import {RootState} from '../../store/modules/combineReducers';
@@ -8,7 +7,7 @@ import { createCustomer } from '../../store/modules/customer/actions';
 
 
 
-function Create(props:RouteComponentProps){
+   function Create(props:RouteComponentProps){
 
     const data = useSelector((state: RootState) => state.customer.data);
     const dispatch = useDispatch();
@@ -40,23 +39,6 @@ function Create(props:RouteComponentProps){
         setTimeout(() => {
                      props.history.push('/');
                  }, 1500);
-
-        // setloading(true);
-        // const formData = {
-        //     name: name,
-        //     updated_by: updated_by,
-        //     last_updated:last_updated,   
-        //     description: description,
-        // }
-        // setsubmitSuccess(true);
-        // const latestValues = [...values,formData]
-        // setValues(latestValues);
-        // setloading(false)
-        // axios.post(`http://localhost:5000/customers`, formData).then(data => [
-        //     setTimeout(() => {
-        //         props.history.push('/');
-        //     }, 1500)
-        // ]);
     }
 
     return (
@@ -91,7 +73,7 @@ function Create(props:RouteComponentProps){
                         <input type="date" id="last_updated" onChange={(e) => setLastUpdated(e.currentTarget.value)} name="last_updated" className="form-control" placeholder="Enter Date" />
                     </div>
                     <div className="form-group col-md-4 pull-right">
-                        <button className="btn btn-success" type="submit">
+                        <button className="btn btn-success" type="submit" id="create-entry">
                             Create Entry
                         </button>
                         {loading &&

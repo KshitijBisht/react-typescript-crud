@@ -9,5 +9,6 @@ export function* loadCustomersWatcher(){
 
 function* loadCustomersFlow(){
    const customers = yield call(getCustomers)
+   console.log(`cust inside saga = = ${JSON.stringify(customers)}`)
    yield put(saveCustomers(customers))
 }

@@ -4,6 +4,8 @@ import {
     CREATE_CUSTOMER_REQUEST,
     UPDATE_CUSTOMER_REQUEST,
     DELETE_CUSTOMER_REQUEST,
+    SAVE_CUSTOMERS_REQUEST,
+    LOAD_CUSTOMERS_REQUEST
   } from './types';
 
   const initialState: CustomerState = {
@@ -13,8 +15,14 @@ import {
   export default function todoReducer(
     state = initialState,
     action: CustomerActionsTypes
-  ): CustomerState {
+  ): any {
     switch (action.type) {
+      case SAVE_CUSTOMERS_REQUEST:
+        console.log(`State = = =${JSON.stringify(state)}`)
+        console.log(`Action = = =${JSON.stringify(action)}`)
+        return{
+         data:[]
+        };
       case CREATE_CUSTOMER_REQUEST:
         return {
           data: [...state.data, action.payload.customer],

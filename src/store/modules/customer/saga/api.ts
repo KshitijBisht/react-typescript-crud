@@ -1,7 +1,8 @@
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 
 export async function getCustomers(){
-    return axios.get("http://localhost:5000/customers").then((res:any)=>res.json())
+    const res = await axios.get("http://localhost:5000/customers")
+    return res;
 }
 
 export async function postCustomers(customers:any[]){
